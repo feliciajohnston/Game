@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Game</string>
+    <string name="options">OPTIONS</string>
+    <string name="leaderboards">LEADERBOARDS</string>
+    <string name="newGame">NEW</string>
+    <string name="load">LOAD</string>
+</resources>

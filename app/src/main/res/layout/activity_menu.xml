@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/menu_background"
+    android:baselineAligned="false"
+    android:weightSum="1"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="270dp"
+        android:layout_height="139dp"
+        android:id="@+id/imageView"
+        android:background="@drawable/survive_title_art"
+        android:layout_gravity="left|top" />
+
+    <FrameLayout
+        android:layout_width="404dp"
+        android:layout_height="176dp"
+        android:layout_gravity="right">
+
+        <Button
+            android:layout_width="140dp"
+            android:layout_height="50dp"
+            android:text="@string/load"
+            android:id="@+id/button_load"
+            android:layout_gravity="left|top"
+            android:background="#9A0007"
+            android:textColor="#ffffff"
+            android:layout_margin="5dp" />
+
+        <Button
+            android:layout_width="140dp"
+            android:layout_height="50dp"
+            android:text="@string/newGame"
+            android:id="@+id/button_new"
+            android:layout_gravity="left|center_vertical"
+            android:textColor="#ffffff"
+            android:background="#9A0007"
+            android:layout_margin="5dp"
+            android:layout_weight="0.03" />
+
+        <Button
+            android:layout_width="140dp"
+            android:layout_height="50dp"
+            android:text="@string/leaderboards"
+            android:id="@+id/button_leaderboards"
+            android:layout_gravity="left|bottom"
+            android:textColor="#ffffff"
+            android:background="#9A0007"
+            android:layout_margin="5dp"
+            android:layout_weight="0.40" />
+
+        <Button
+            android:layout_width="140dp"
+            android:layout_height="50dp"
+            android:text="@string/options"
+            android:id="@+id/button_options"
+            android:layout_gravity="right|bottom"
+            android:background="#00ffffff"
+            android:textColor="#9A0007"
+            android:layout_margin="5dp" />
+    </FrameLayout>
+
+</LinearLayout>
