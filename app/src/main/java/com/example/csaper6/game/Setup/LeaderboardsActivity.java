@@ -1,8 +1,10 @@
-package com.example.csaper6.game;
+package com.example.csaper6.game.Setup;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+
+import com.example.csaper6.game.R;
 
 /**
  * Created by csaper6 on 5/1/17.
