@@ -1,46 +1,89 @@
 package com.example.csaper6.game.GamePlay;
 
-import com.example.csaper6.game.GamePlay.InventoryClasses.FirstAid;
-import com.example.csaper6.game.GamePlay.InventoryClasses.Food;
-import com.example.csaper6.game.GamePlay.InventoryClasses.Weapons;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by csaper6 on 5/5/17.
  */
 public class Inventory {
-    private Food f;
-    private Weapons w;
-    private FirstAid fa;
+    private Map<String, Integer> foodsList;
+    private Map<String, Integer> firstAidList;
+    private Map<String, Integer> weaponsList;
 
     public Inventory(){
-        f = new Food();
-        w = new Weapons();
-        fa = new FirstAid();
+
+        foodsList = new HashMap<>();
+        foodsList.put("apple", 10);
+        foodsList.put("banana", 10);
+        foodsList.put("apple", 10);
+        foodsList.put("apple", 10);
+        foodsList.put("apple", 10);
+
+        firstAidList = new HashMap<>();
+        firstAidList.put("old bandage", 1);
+
+        weaponsList = new HashMap<>();
+        weaponsList.put("stick", 1);
+
     }
 
-    public String getFoodList(){
-        return f.toString();
+    public void addFood(String name, int nutrient) {
+        foodsList.put(name, nutrient);
     }
 
-    public String getWeaponsList(){
-        return w.toString();
+    public void removeFood(String name) {
+        foodsList.remove(name);
     }
 
-    public String getFirstAidList(){
-        return fa.toString();
+    public int getNutrients(String name) {
+        int nutrient = foodsList.get(name);
+        return nutrient;
     }
 
-    public Food getFood(){
-        return f;
+    public void addFirstAid(String name, int health){
+        firstAidList.put(name, health);
     }
 
-    public Weapons getWeapon(){
-        return w;
+    public void removeFirstAid(String name){
+        firstAidList.remove(name);
     }
 
-    public FirstAid getFirstAid(){
-        return fa;
+    public int getHealth(String name){
+        int health =  firstAidList.get(name);
+        return health;
     }
 
+    public void addWeapon(String name, int damage){
+        weaponsList.put(name, damage);
+    }
 
+    public void removeWeapon(String name){
+        weaponsList.remove(name);
+    }
+
+    public int getDamage(String name){
+        int damage =  weaponsList.get(name);
+        return damage;
+    }
+
+    @Override
+    public String toString() {
+        return "Food: " + foodsList.keySet().toString() + "First Aid: " + firstAidList.keySet().toString() + "Weapons: " + weaponsList.keySet().toString();
+    }
+
+    public String[] getInventoryArray(){
+        String s1 = toString();
+        String s2 = "";
+
+        for(int i = 0; i< s1.length(); i++){
+            //check character if space or however it divides and add to array
+        }
+
+
+        String a[] = new String[10];
+        return a;
+    }
 }
+
+
