@@ -1,19 +1,29 @@
 package com.example.csaper6.game;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.example.csaper6.game.GamePlay.Player;
+import com.example.csaper6.game.Setup.WorldBuilder;
+
+import java.util.Arrays;
 
 import static android.text.Html.fromHtml;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Location level[][] = new Location[120][24];
-    private Button left, right, up, down, interact;
+    private Location level[][]; //= new Location[120][24];
+    private Button left, right, up, down, interact, start;
     private TextView textView0, logCurrent, logPrevious, logOverprevious;
-    private int playerSpotX = 0, playerSpotY = 0, screenWidth = 26, screenHeight = 8; //screenWidth or height should be even
+    private int playerSpotX, playerSpotY, screenWidth = 26, screenHeight = 8; //screenWidth or height should be even
+    private WorldBuilder WorldGen;
+    private Player player;
 
 
     @Override
@@ -22,25 +32,22 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        //Setting up the array (map)
-        for (int i = 0; i < level[0].length; i++) {
-            for (int j = 0; j < level.length; j++) {
-                if (j % 8 == 0 || i % 6 == 0) {
-                    level[j][i] = new Location(2, false);
+        player = new Player();
+        player.getInventory().addWeapon("stick", 5, 0);
+        player.getInventory().addFirstAid("old bandage", 1, 1);
+        player.getInventory().addFood("apple", 10, 2);
 
-                } else {
-                    level[j][i] = new Location();
 
-                }
+        WorldGen = new WorldBuilder(64, 64, 4, 4, 1);//MUST be a multiple of 8
+        level = WorldGen.getLevel();
+        playerSpotX = WorldGen.getPlayerX();
+        playerSpotY = WorldGen.getPlayerY();
 
-            }
-        }
-
-        level[0][0].setPlayerLocation(true);
 
         //wiring widgets
 
 
+        start = (Button) findViewById(R.id.button_start);
         left = (Button) findViewById(R.id.button_left);
         right = (Button) findViewById(R.id.button_right);
         up = (Button) findViewById(R.id.button_up);
@@ -55,6 +62,62 @@ public class MainActivity extends AppCompatActivity {
 
 
         //set the actions of the buttons
+        start.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("Inventory")
+                        .setItems(player.getInventory().getInventoryArray(), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                String s = player.getInventory().findAtPosition(which);
+                                switch(s){
+                                    case "apple":
+                                        AlertDialog alert = new AlertDialog.Builder(MainActivity.this).create();
+                                        alert.setTitle("Do you want to use the apple?");
+                                        alert.setButton(AlertDialog.BUTTON_POSITIVE, "Yes.",
+                                                new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        //use apple
+                                                        player.getInventory().removeFood("apple", which);
+
+                                                        //TODO: REMOVE ITEM, SET NEW BAR VALUES, ETC.
+                                                    }
+                                                });
+                                        break;
+                                    case "old bandage":
+                                        AlertDialog alert2 = new AlertDialog.Builder(MainActivity.this).create();
+                                        alert2.setTitle("Do you want to use the old bandage?");
+                                        alert2.setButton(AlertDialog.BUTTON_POSITIVE, "Yes.",
+                                                new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        //use apple
+                                                    }
+                                                });
+                                        //use
+                                        player.getInventory().removeFirstAid("old Bandage", which);
+                                        break;
+                                    case "stick":
+                                        AlertDialog alert3 = new AlertDialog.Builder(MainActivity.this).create();
+                                        alert3.setTitle("Do you want to equip the stick?");
+                                        alert3.setButton(AlertDialog.BUTTON_POSITIVE, "Yes.",
+                                                new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        //use apple
+                                                    }
+                                                });
+                                        //use
+                                        player.getInventory().removeWeapon("stick", which);
+                                        break;
+                                }
+
+                            }
+                        });
+                builder.show();
+
+                Log.d("TAG", "LOOK HERE:" + Arrays.toString(player.getInventory().getInventoryArray()));
+
+            }
+        });
         interact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,37 +127,43 @@ public class MainActivity extends AppCompatActivity {
         left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                moveTextHorizontal(false);
-                updateMap();
+                if (level[playerSpotX - 1][playerSpotY].getTraversable()) {
+                    moveTextHorizontal(false);
+                    updateMap();
+                }
             }
         });
         right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                moveTextHorizontal(true);
-                updateMap();
+                if (level[playerSpotX + 1][playerSpotY].getTraversable()) {
+                    moveTextHorizontal(true);
+                    updateMap();
+                }
 
             }
         });
         up.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                moveTextVertical(false);
-                updateMap();
+                if (level[playerSpotX][playerSpotY - 1].getTraversable()) {
+                    moveTextVertical(false);
+                    updateMap();
+                }
 
             }
         });
         down.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                moveTextVertical(true);
-                updateMap();
+                if (level[playerSpotX][playerSpotY + 1].getTraversable()) {
+                    moveTextVertical(true);
+                    updateMap();
+                }
 
 
             }
         });
-
-
     }
 
     //interact with whatever the player is currently above
@@ -164,18 +233,22 @@ public class MainActivity extends AppCompatActivity {
         logCurrent.setText(message);
     }
 
-//NON GAME LIST
-    //TODO: start new game
-    //TODO: save file
-    //TODO: load saved game
-    //TODO: implement reset button
-    //TODO: icon
-    //TODO: credits
-    //TODO: SFX and music capabilities
 
-    //GAME LIST
-
-    //EXTRA? STRETCH GOAL LIST
-    //TODO: possibly setup leaderboards?
-    //TODO: possibly setup connect to social media to set leaderboards?
 }
+
+
+//NON GAME LIST
+//TODO: start new game
+//TODO: save file
+//TODO: load saved game
+//TODO: implement reset button
+//TODO: icon
+//TODO: credits
+//TODO: SFX and music capabilities
+
+//GAME LIST
+
+//EXTRA? STRETCH GOAL LIST
+//TODO: possibly setup leaderboards?
+//TODO: possibly setup connect to social media to set leaderboards?
+
