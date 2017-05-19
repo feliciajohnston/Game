@@ -1,10 +1,10 @@
-package com.example.csaper6.game;
+package com.example.csaper6.game.Setup;
 
 /**
  * Created by csaper6 on 5/5/17.
  */
 public class Location {
-    private String type, flavorText,color = "#000000";;
+    private String type, flavorText,color = "#000000";
     private int typeID, variation;
     private char appearance, playerAppearance = '@';
     private boolean holdsPlayer, traversable;
@@ -33,13 +33,12 @@ public class Location {
     000 == TERRAIN / FLORA / INFRASTRUCTURE
     100 == HOUSES
     200 == COMMERCIAL BUILDINGS
-    300 ==
-
-     */
+    300 == INDUSTRIAL BUILDINGS
+        */
     public void setType(int ID){
         typeID = ID;
         switch (ID){
-            case 1:
+            case 001:
                 type = "field";
                 flavorText = "You are in an empty field";
                 switch (variation){
@@ -56,7 +55,7 @@ public class Location {
                 color = "#93AA52";
                 traversable = true;
                 break;
-            case 2:
+            case 002:
                 type = "road";
                 flavorText = "You are on a deserted road";
                 switch (variation){
@@ -73,7 +72,7 @@ public class Location {
                 color = "#555555";
                 traversable = true;
                 break;
-            case 3:
+            case 003:
                 type = "rubble";
                 flavorText = "This once was a building";
                 switch (variation){
@@ -99,16 +98,67 @@ public class Location {
                 color = "#777F80";
                 traversable = false;
                 break;
-            case 204:
-                type = "house pink";
-                flavorText = "This house is pink";
+            case 004:
+                type = "lake";
+                flavorText = "You are in shallow water";
+                appearance = 'ω';
+                color = "#080baf";
+                traversable = true;
+                break;
+            case 101:
                 switch (variation){
+                    case 1:
+                        type = "house blue";
+                        flavorText = "You are in a blue house";
+                        color = "#C4C3D8";
+                        traversable = true;
+                        appearance = 'H';
+                        break;
+                    case 2:
+                        type = "house yellow";
+                        flavorText = "You are in a yellow house";
+                        color = "#D8D7C3";
+                        traversable = true;
+                        appearance = 'H';
+                        break;
+                    case 3:
+                        type = "house brick";
+                        flavorText = "You are in a brick house";
+                        color = "#9E6D60";
+                        traversable = true;
+                        appearance = 'H';
+                        break;
+
                     default:
+                        type = "house pink";
+                        flavorText = "You are in a pink house";
+                        color = "#D1C5D6";
+                        traversable = true;
                         appearance = 'H';
                         break;
                 }
-                color = "#A874AF";
-                traversable = false;
+                break;
+            case 301:
+                switch (variation) {
+                    default:
+                        type = "factory brick";
+                        flavorText = "You are in an abandoned factory";
+                        color = "#9E6D60";
+                        traversable = true;
+                        appearance = 'F';
+                        break;
+                }
+                break;
+            case 302:
+                switch (variation) {
+                    default:
+                        type = "warehouse brick";
+                        flavorText = "You are in an abandoned warehouse";
+                        color = "#9E6D60";
+                        traversable = true;
+                        appearance = 'W';
+                        break;
+                }
                 break;
             default:
                 type = "null";
@@ -161,8 +211,4 @@ public class Location {
     }
 
 }
-
-
-
-
 

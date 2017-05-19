@@ -12,73 +12,56 @@ public class Inventory {
     private Map<String, Integer> foodsList;
     private Map<String, Integer> firstAidList;
     private Map<String, Integer> weaponsList;
-    private Map<Integer, String> inventoryKey;
     private List<String> inventoryArray;
 
     public Inventory(){
 
-        inventoryKey = new HashMap<>();
         inventoryArray = new ArrayList<>();
         foodsList = new HashMap<>();
         firstAidList = new HashMap<>();
         weaponsList = new HashMap<>();
     }
 
-    public void addFood(String name, int nutrient, int placement) {
+    public void addFood(String name, int nutrient) {
         foodsList.put(name, nutrient);
         inventoryArray.add(name);
-        inventoryKey.put(placement, name);
     }
 
-    public void removeFood(String name, int placement) {
+    public void removeFood(String name) {
         foodsList.remove(name);
         inventoryArray.remove(name);
-        inventoryKey.remove(placement);
     }
 
     public int getNutrients(String name) {
-        int nutrient = foodsList.get(name);
-        return nutrient;
+        return foodsList.get(name);
     }
 
-    public void addFirstAid(String name, int health, int placement){
+    public void addFirstAid(String name, int health){
         firstAidList.put(name, health);
         inventoryArray.add(name);
-        inventoryKey.put(placement, name);
     }
 
-    public void removeFirstAid(String name, int placement){
-        firstAidList.remove(name);
+    public void removeFirstAid(String name){
         inventoryArray.remove(name);
-        inventoryKey.remove(placement);
     }
 
     public int getHealth(String name){
-        int health =  firstAidList.get(name);
-        return health;
+        return firstAidList.get(name);
     }
 
-    public void addWeapon(String name, int damage, int placement){
+    public void addWeapon(String name, int damage){
         weaponsList.put(name, damage);
         inventoryArray.add(name);
-        inventoryKey.put(placement, name);
     }
 
-    public void removeWeapon(String name, int placement){
+    public void removeWeapon(String name){
         weaponsList.remove(name);
         inventoryArray.remove(name);
-        inventoryKey.remove(placement);
     }
 
     public int getDamage(String name){
-        int damage =  weaponsList.get(name);
-        return damage;
+        return weaponsList.get(name);
     }
-
-    //@Override
-   // public String toString() {
-    //    return "Food: " + foodsList.keySet().toString() + "First Aid: " + firstAidList.keySet().toString() + "Weapons: " + weaponsList.keySet().toString();
-    //}
 
     public String[] getInventoryArray(){
       return inventoryArray.toArray(new String[checkArray(inventoryArray)]);
@@ -94,9 +77,10 @@ public class Inventory {
         return num;
     }
 
-    public String findAtPosition(int pos){
-        return inventoryKey.get(pos);
+    public List<String> getInventoryArrayList(){
+        return inventoryArray;
     }
+
 }
 
 

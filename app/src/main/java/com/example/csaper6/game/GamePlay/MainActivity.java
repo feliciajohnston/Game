@@ -1,18 +1,16 @@
-package com.example.csaper6.game;
+package com.example.csaper6.game.GamePlay;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.csaper6.game.GamePlay.Player;
+import com.example.csaper6.game.R;
+import com.example.csaper6.game.Setup.Location;
 import com.example.csaper6.game.Setup.WorldBuilder;
-
-import java.util.Arrays;
 
 import static android.text.Html.fromHtml;
 
@@ -21,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     private Location level[][]; //= new Location[120][24];
     private Button left, right, up, down, interact, start;
     private TextView textView0, logCurrent, logPrevious, logOverprevious;
-    private int playerSpotX, playerSpotY, screenWidth = 26, screenHeight = 8; //screenWidth or height should be even
+    private int playerSpotX, playerSpotY,screenWidth = 26, screenHeight = 8; //screenWidth or height should be even
     private WorldBuilder WorldGen;
     private Player player;
 
@@ -33,9 +31,9 @@ public class MainActivity extends AppCompatActivity {
 
 
         player = new Player();
-        player.getInventory().addWeapon("stick", 5, 0);
-        player.getInventory().addFirstAid("old bandage", 1, 1);
-        player.getInventory().addFood("apple", 10, 2);
+        player.getInventory().addWeapon("stick", 5);
+        player.getInventory().addFirstAid("old bandage", 1);
+        player.getInventory().addFood("apple", 10);
 
 
         WorldGen = new WorldBuilder(64, 64, 4, 4, 1);//MUST be a multiple of 8
@@ -69,20 +67,26 @@ public class MainActivity extends AppCompatActivity {
                 builder.setTitle("Inventory")
                         .setItems(player.getInventory().getInventoryArray(), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                String s = player.getInventory().findAtPosition(which);
+
+                                String s = player.getInventory().getInventoryArrayList().get(which);
+                                //Log.d("MENU TESTING", "YOU CLICKED " + s);
                                 switch(s){
                                     case "apple":
                                         AlertDialog alert = new AlertDialog.Builder(MainActivity.this).create();
                                         alert.setTitle("Do you want to use the apple?");
-                                        alert.setButton(AlertDialog.BUTTON_POSITIVE, "Yes.",
+                                        alert.setButton(AlertDialog.BUTTON_POSITIVE, "Yes",
                                                 new DialogInterface.OnClickListener() {
                                                     public void onClick(DialogInterface dialog, int which) {
                                                         //use apple
-                                                        player.getInventory().removeFood("apple", which);
-
-                                                        //TODO: REMOVE ITEM, SET NEW BAR VALUES, ETC.
+                                                        //Log.d("TAG", "1 LOOK HERE: " + player.getNutrientLevel());
+                                                        player.addNutrients(player.getInventory().getNutrients("apple"));
+                                                        player.getInventory().removeFood("apple");
+                                                        //Log.d("TAG", "2 LOOK HERE: " + player.getNutrientLevel());
                                                     }
                                                 });
+                                        alert.setButton(AlertDialog.BUTTON_NEGATIVE, "No",  new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int which) {}});
+                                        alert.show();
                                         break;
                                     case "old bandage":
                                         AlertDialog alert2 = new AlertDialog.Builder(MainActivity.this).create();
@@ -90,11 +94,16 @@ public class MainActivity extends AppCompatActivity {
                                         alert2.setButton(AlertDialog.BUTTON_POSITIVE, "Yes.",
                                                 new DialogInterface.OnClickListener() {
                                                     public void onClick(DialogInterface dialog, int which) {
-                                                        //use apple
+                                                        //use
+                                                       // Log.d("TAG", "1 LOOK HERE: " + player.getHealthLevel());
+                                                        player.addHealth(player.getInventory().getHealth("old bandage"));
+                                                        player.getInventory().removeFirstAid("old bandage");
+                                                       // Log.d("TAG", "2 LOOK HERE: " + player.getHealthLevel());
                                                     }
                                                 });
-                                        //use
-                                        player.getInventory().removeFirstAid("old Bandage", which);
+                                        alert2.setButton(AlertDialog.BUTTON_NEGATIVE, "No",  new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {}});
+                                        alert2.show();
                                         break;
                                     case "stick":
                                         AlertDialog alert3 = new AlertDialog.Builder(MainActivity.this).create();
@@ -102,20 +111,21 @@ public class MainActivity extends AppCompatActivity {
                                         alert3.setButton(AlertDialog.BUTTON_POSITIVE, "Yes.",
                                                 new DialogInterface.OnClickListener() {
                                                     public void onClick(DialogInterface dialog, int which) {
-                                                        //use apple
+                                                        //use
+                                                        //Log.d("TAG", "1 LOOK HERE: " + player.getEquippedWeaponName());
+                                                        player.setEquippedWeapon("stick", player.getInventory().getDamage("stick"));
+                                                        player.getInventory().removeWeapon("stick");
+                                                        //Log.d("TAG", "2 LOOK HERE: " + player.getEquippedWeaponName());
                                                     }
                                                 });
-                                        //use
-                                        player.getInventory().removeWeapon("stick", which);
+                                        alert3.setButton(AlertDialog.BUTTON_NEGATIVE, "No",  new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {}});
+                                        alert3.show();
                                         break;
                                 }
-
                             }
                         });
                 builder.show();
-
-                Log.d("TAG", "LOOK HERE:" + Arrays.toString(player.getInventory().getInventoryArray()));
-
             }
         });
         interact.setOnClickListener(new View.OnClickListener() {

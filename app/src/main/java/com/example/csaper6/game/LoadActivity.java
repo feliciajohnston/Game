@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 
+import com.example.csaper6.game.GamePlay.MainActivity;
 import com.example.csaper6.game.Setup.MenuActivity;
 
 /**

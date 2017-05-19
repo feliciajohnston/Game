@@ -1,7 +1,5 @@
 package com.example.csaper6.game.Setup;
 
-import com.example.csaper6.game.Location;
-
 import java.util.Random;
 
 /**
@@ -14,10 +12,13 @@ public class WorldBuilder {
 
 
     public WorldBuilder(){
-        level = new Location[8][8];
+        level = new Location[32][32];
         randNum = new Random();
-        generateBaseMap(8, 8);
-        rubbleEdge(8,8);
+        generateBaseMap(32, 32);
+
+        generateCity(32, 32);
+
+        generateRubbleEdge(32,32);
         pX = 4;
         pY = 4;
         level[pX][pY].setPlayerLocation(true);
@@ -27,7 +28,10 @@ public class WorldBuilder {
         level = new Location[width][height];
         randNum = new Random(seed);
         generateBaseMap(width, height);
-        rubbleEdge(width,height);
+
+        generateCity(width, height);
+
+        generateRubbleEdge(width,height);
         pX = 4;
         pY = 4;
         level[pX][pY].setPlayerLocation(true);
@@ -37,7 +41,10 @@ public class WorldBuilder {
         level = new Location[width][height];
         randNum = new Random(seed);
         generateBaseMap(width, height);
-        rubbleEdge(width,height);
+
+        generateCity(width, height);
+
+        generateRubbleEdge(width,height);
         pX = playerStartX;
         pY = playerStartY;
         level[pX][pY].setPlayerLocation(true);
@@ -64,7 +71,7 @@ public class WorldBuilder {
         }
     }
 
-    public void rubbleEdge(int width,int height){
+    public void generateRubbleEdge(int width, int height){
         for(int i = 0; i < width; i++){
             level[i][0].setVariation(randNum.nextInt(6));
             level[i][0].setType(3);
@@ -112,7 +119,74 @@ public class WorldBuilder {
 
     }
 
-    public void generate6by6Building(int startX, int startY){
+    public void generateHousingBlock(int startX, int startY){
+        for (int i = startX; i < startX + 6; i++) {
+            for (int j = startY; j < startY + 6; j++) {
+                if((i == startX && j%(randNum.nextInt(3) + 1) == 0) || (i == startX + 5 && j%(randNum.nextInt(3) + 1) == 0) ||(j == startY && i%(randNum.nextInt(3) + 1) == 0) || (j == startY + 5 && i%(randNum.nextInt(3) + 1) == 0)) {
+                    level[i][j].setVariation(randNum.nextInt(4));
+                    level[i][j].setType(101);
+                }
+            }
+        }
+        if(randNum.nextInt(10) < 7){
+            generateLake(startX + randNum.nextInt(2) + 1, startY + randNum.nextInt(2) + 1, randNum.nextInt(3) + 1, randNum.nextInt(3) + 1);
+        }
+    }
+
+    public void generateIndustrialBlock(int startX, int startY){
+        int width = 0;
+        int height = 0;
+
+        width = randNum.nextInt(3);
+        height = randNum.nextInt(3);
+        generateFactory(startX,startY,width,height,randNum.nextInt(2));
+
+        width = randNum.nextInt(4);
+        height = randNum.nextInt(3);
+        generateFactory(startX + 6 - width,startY,width,height,randNum.nextInt(2));
+
+        width = randNum.nextInt(4);
+        height = randNum.nextInt(3);
+        generateFactory(startX,startY + 6 - height,width,height,randNum.nextInt(2));
+
+        width = randNum.nextInt(4);
+        height = randNum.nextInt(4);
+        generateFactory(startX + 6 - width,startY + 6 - height,width,height,randNum.nextInt(2));
+
+
+    }
+    public void generateFactory(int startX, int startY, int width, int height, int type){
+        for (int i = startX; i < startX + width; i++) {
+            for (int j = startY; j < startY + height; j++) {
+                level[i][j].setType(type + 301);
+            }
+        }
+    }
+
+    public void generateLake(int startX, int startY, int width, int height){
+        for (int i = startX; i < startX + width; i++) {
+            for (int j = startY; j < startY + height; j++) {
+                level[i][j].setType(4);
+            }
+        }
+    }
+
+    public void generateCity(int width, int height){
+        int blockType = 0;
+        for (int i = 1; i < height; i+= 7) {
+            for (int j = 1; j < width; j+= 7) {
+                blockType = randNum.nextInt(2);
+                switch (blockType){
+                    case 1:
+                        generateIndustrialBlock(i,j);
+                        break;
+                    default:
+                        generateHousingBlock(i,j);
+                        break;
+                }
+
+            }
+        }
 
     }
 
@@ -130,6 +204,3 @@ public class WorldBuilder {
 
 
 }
-
-
-

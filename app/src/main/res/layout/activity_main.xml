@@ -7,7 +7,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.csaper6.game.MainActivity">
+    tools:context=".GamePlay.MainActivity"
+    android:background="#000000">
 
         <Button
             android:text="↓"
@@ -86,7 +87,7 @@
             android:letterSpacing="0.25"
             android:textSize="28dp"
             android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignStart="@+id/button_up" />
 
 
         <Button
