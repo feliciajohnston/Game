@@ -28,8 +28,9 @@ public class Inventory {
     }
 
     public void removeFood(String name) {
-        foodsList.remove(name);
         inventoryArray.remove(name);
+        foodsList.remove(name);
+
     }
 
     public int getNutrients(String name) {

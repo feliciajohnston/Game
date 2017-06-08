@@ -12,40 +12,14 @@
         android:layout_gravity="left|top" />
 
     <TableLayout
-        android:layout_width="200dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="5dp">
 
         <TableRow
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="SFX"
-                android:id="@+id/textView"
-                android:textColor="#9A0007" />
-
-            <SeekBar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/seekBar_sfx"
-                android:layout_column="1"
-                android:max="100"
-                android:indeterminate="false"
-                android:progress="50"
-                android:layout_weight="3"
-                android:thumbTint="#9A0007"
-                android:progressTint="#ff6659"
-                android:layout_span="100" />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -54,18 +28,16 @@
                 android:id="@+id/textView5"
                 android:textColor="#9A0007" />
 
-            <SeekBar
-                android:layout_width="fill_parent"
+            <Switch
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/seekBar_music"
+                android:id="@+id/switch_music"
                 android:layout_column="1"
-                android:max="100"
-                android:indeterminate="false"
-                android:progress="50"
-                android:thumbTint="#9A0007"
-                android:progressTint="#ff6659"
-                android:layout_span="100"
-                android:layout_weight="1" />
+                android:checked="true"
+                android:layout_span="0"
+                android:layout_gravity="bottom|right"
+                android:layout_weight="0"
+                android:layout_margin="5dp" />
 
         </TableRow>
 

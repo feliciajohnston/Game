@@ -1,13 +1,10 @@
 package com.example.csaper6.game;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 
 import com.example.csaper6.game.GamePlay.MainActivity;
-import com.example.csaper6.game.Setup.MenuActivity;
 
 /**
  * Created by csaper6 on 5/1/17.
@@ -19,30 +16,10 @@ public class LoadActivity extends AppCompatActivity {
         setContentView(R.layout.activity_load);
 
         Intent i = new Intent(LoadActivity.this, MainActivity.class);
+        i.putExtra("gameType", 0); //0 = load game
         startActivity(i);
 
 
     }
 
-    @Override
-    public void onBackPressed(){
-        AlertDialog alertDialog = new AlertDialog.Builder(LoadActivity.this).create();
-        alertDialog.setTitle("WARNING: CHECK SAVE FILE");
-        alertDialog.setMessage("Are you sure you want to exit the game?");
-        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Yes, I'm sure.",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        Intent i = new Intent(LoadActivity.this, MenuActivity.class);
-                        startActivity(i);
-                    }
-                });
-        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No, wait go back.",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-        alertDialog.show();
-    }
 }

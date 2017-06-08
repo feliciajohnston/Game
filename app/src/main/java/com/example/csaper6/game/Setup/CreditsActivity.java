@@ -18,7 +18,8 @@ public class CreditsActivity extends AppCompatActivity{
 
         TextView creditsText = (TextView) findViewById(R.id.textView_credits);
         String credits = "\n Developers: \n Riley Johnston \n Case Willems \n " +
-                "Art: \n opengameart.org \n @jkjkke \n";
+                "Art: \n @jkjkke \n opengameart.org \n" +
+                "Music: \n Eric Matyas \n www.soundimage.org";
         creditsText.setText(credits);
     }
 }

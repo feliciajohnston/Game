@@ -7,7 +7,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.SeekBar;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.example.csaper6.game.R;
@@ -16,19 +17,30 @@ import com.example.csaper6.game.R;
  * Created by csaper6 on 4/27/17.
  */
 public class OptionsActivity extends AppCompatActivity {
-    private SeekBar sfxSeek, musicSeek;
-    private Button resetButt, creditsButt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_options);
 
-        resetButt = (Button) findViewById(R.id.button_reset);
-        creditsButt = (Button) findViewById(R.id.button_credits);
-        sfxSeek = (SeekBar) findViewById(R.id.seekBar_sfx);
-        musicSeek = (SeekBar) findViewById(R.id.seekBar_music);
 
+        Switch musicSwitch = (Switch) findViewById(R.id.switch_music);
+        Button resetButt = (Button) findViewById(R.id.button_reset);
+        Button creditsButt = (Button) findViewById(R.id.button_credits);
+
+        musicSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (!b) {
+                    stopService(new Intent(OptionsActivity.this, BackgroundSoundService.class));
+                }
+                else{
+                    Intent svc = new Intent(OptionsActivity.this, BackgroundSoundService.class);
+                    startService(svc);
+                }
+
+            }
+        });
         resetButt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -40,6 +52,7 @@ public class OptionsActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
                                 Toast.makeText(OptionsActivity.this, "NO", Toast.LENGTH_SHORT).show();
+
                             }
                         });
                 alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No, wait go back.",
@@ -59,43 +72,7 @@ public class OptionsActivity extends AppCompatActivity {
             }
         });
 
-        sfxSeek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                //set sfx volume
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
-            }
-        });
-
-        musicSeek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                //set music volume
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
-            }
-        });
-
-
     }
-
     @Override
     public void onBackPressed(){
         Intent i = new Intent(OptionsActivity.this, MenuActivity.class);

@@ -1,24 +1,29 @@
 package com.example.csaper6.game.Setup;
 
+import com.example.csaper6.game.GamePlay.Inventory;
+
 /**
  * Created by csaper6 on 5/5/17.
  */
 public class Location {
     private String type, flavorText,color = "#000000";
-    private int typeID, variation;
+    private int typeID, variation, casheType;
     private char appearance, playerAppearance = '@';
     private boolean holdsPlayer, traversable;
+    private Inventory Cashe;
 
     public Location(){
         typeID = 1;
         setType(typeID);
         holdsPlayer = false;
+        Cashe = new Inventory();
 
     }
     public Location(int ID, boolean holdsPlayer){
         this.holdsPlayer = holdsPlayer;
         setType(ID);
         setPlayerLocation(holdsPlayer);
+        Cashe = new Inventory();
     }
 
     public Location(int ID, boolean holdsPlayer, int variation){
@@ -26,6 +31,7 @@ public class Location {
         this.variation = variation;
         setType(ID);
         setPlayerLocation(holdsPlayer);
+        Cashe = new Inventory();
     }
 
 
@@ -210,5 +216,41 @@ public class Location {
         return traversable;
     }
 
+    public void setCashe(int type, int value, String name){
+        casheType = type;
+        switch(type){
+            case 1:
+                Cashe.addFood(name, value);
+                break;
+            case 2:
+                Cashe.addFirstAid(name, value);
+                break;
+            default:
+                Cashe.addWeapon(name, value);
+                break;
+        }
+    }
+
+    public String getCasheName(){
+        return Cashe.getInventoryArrayList().get(0);
+    }
+
+    public int getCasheType(){
+        return casheType;
+    }
+
+    public int getCasheValue(){
+        switch(casheType){
+            case 1:
+                return Cashe.getNutrients(Cashe.getInventoryArrayList().get(0));
+
+            case 2:
+                return Cashe.getHealth(Cashe.getInventoryArrayList().get(0));
+
+            default:
+                return Cashe.getDamage(Cashe.getInventoryArrayList().get(0));
+
+        }
+    }
 }
 

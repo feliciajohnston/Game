@@ -14,17 +14,23 @@ import com.example.csaper6.game.R;
  * Created by csaper6 on 4/27/17.
  */
 public class MenuActivity extends AppCompatActivity {
-    private Button loadButt, newButt, optionsButt, leaderboardsButt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
-        loadButt = (Button) findViewById(R.id.button_load);
-        newButt = (Button) findViewById(R.id.button_new);
-        optionsButt = (Button) findViewById(R.id.button_options);
-        leaderboardsButt = (Button) findViewById(R.id.button_leaderboards);
+        //start music service
+        Intent svc = new Intent(MenuActivity.this, BackgroundSoundService.class);
+        startService(svc);
+
+
+
+
+        Button loadButt = (Button) findViewById(R.id.button_load);
+        Button newButt = (Button) findViewById(R.id.button_new);
+        Button optionsButt = (Button) findViewById(R.id.button_options);
+        Button leaderboardsButt = (Button) findViewById(R.id.button_leaderboards);
 
         loadButt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,6 +86,12 @@ public class MenuActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public void onDestroy(){
+        stopService(new Intent(this, BackgroundSoundService.class));
+        super.onDestroy();
     }
 }
 

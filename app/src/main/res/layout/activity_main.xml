@@ -10,6 +10,52 @@
     tools:context=".GamePlay.MainActivity"
     android:background="#000000">
 
+        <TableLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toStartOf="@+id/text_view_map"
+            android:layout_alignBottom="@+id/text_view_map"
+            android:layout_alignParentStart="true"
+            android:id="@+id/tableLayout"
+            android:layout_alignParentLeft="true">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Health: 100/100"
+                            android:id="@+id/textView_healthBar" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:text="Nutrients: 100/100"
+                            android:id="@+id/textView_nutrientsBar" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:text="Equipped: +0"
+                            android:id="@+id/textView_weapon" />
+                </TableRow>
+        </TableLayout>
+
         <Button
             android:text="↓"
             android:layout_width="wrap_content"
@@ -87,7 +133,8 @@
             android:letterSpacing="0.25"
             android:textSize="28dp"
             android:layout_alignParentTop="true"
-            android:layout_alignStart="@+id/button_up" />
+            android:layout_alignParentRight="true"
+            android:layout_toEndOf="@+id/button_left" />
 
 
         <Button
@@ -98,8 +145,13 @@
             android:layout_alignParentBottom="true"
             android:layout_toStartOf="@+id/button_interact" />
 
-
-
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SAVE"
+            android:id="@+id/button_save"
+            android:layout_above="@+id/button_interact"
+            android:layout_alignParentEnd="true" />
 
 
 </RelativeLayout>
